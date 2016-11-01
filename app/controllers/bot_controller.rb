@@ -17,7 +17,7 @@ class BotController < ApplicationController
 	     messaging_events.each do |event|
 	     sender = event[:sender][:id]
 	     if (text = event[:message] && event[:message][:text])
-	        send_text_message(sender, "Hi there #{sender.name}! You said: #{text}. The Bots")
+	        send_text_message(sender, "Hi there! You said: #{text}. The Bots")
 	     end
 	   end
 	 end
