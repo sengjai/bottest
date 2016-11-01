@@ -16,13 +16,32 @@ class BotController < ApplicationController
 	     messaging_events.each do |event|
 	     sender = event[:sender][:id]
 	     if (text = event[:message] && event[:message][:text])
-	       # send_text_message(sender, “Hi there! You said: #{text}. The Bots”)
+	        send_text_message(sender, "Hi there! You said: #{text}. The Bots")
 	     end
 	   end
 	 end
 
 	 render nothing: true
 	end	
+
+
+	def send_text_message(sender, text)
+	  body = {
+	   recipient: {
+	     id: sender
+	   },
+	   message: {
+	     text: text
+	   }
+	  }.to_json
+	  
+	  response = HTTParty.post(
+	   "https://graph.facebook.com/v2.6/me/messages?access_token=EAAFEug8ZAQxQBANqZBO9Nq9WwN9v6nGeIUVhhMutCZBgQdeTNmDRFuZCYuAZCkRP7o9QwZC5AGJddFEiOHVbFTuW7TRbZACqbYUkaBjnLrPSRhAmLUEK2WZBezQxIjk1gNdndcQedJ4UZCNkyZBzqyRNGqiXs8GYUGfEHygc5egIthjwZDZD",
+	   body: body,
+	   headers: { 'Content-Type' => 'application/json' }
+	  )
+	end
+
 end
 
 
