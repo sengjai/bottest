@@ -11,7 +11,7 @@ class BotController < ApplicationController
 
 	 def receive_message
 
-	# 	render text: 'hello' and return
+	 return
 	 end	
 end
 
