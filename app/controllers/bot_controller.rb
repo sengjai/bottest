@@ -9,9 +9,20 @@ class BotController < ApplicationController
 		end
 	end
 
-	 def receive_message
+		
+	def receive_message
+	 if params[:entry]
+	   messaging_events = params[:entry][0][:messaging]
+	     messaging_events.each do |event|
+	     sender = event[:sender][:id]
+	     if (text = event[:message] && event[:message][:text])
+	       # send_text_message(sender, “Hi there! You said: #{text}. The Bots”)
+	     end
+	   end
+	 end
 
-	 render text: params['messaging'] and return
-	 end	
+	 render nothing: true
+	end	
 end
+
 
