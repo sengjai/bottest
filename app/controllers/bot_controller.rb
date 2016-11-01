@@ -1,4 +1,5 @@
 class BotController < ApplicationController
+	 skip_before_action :verify_authenticity_token
 	def webhook	
 		if params['hub.verify_token'] == 'mytoken'
 			render text: params['hub.challenge'] and return
