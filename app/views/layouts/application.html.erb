@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chatbottlew</title>
+<title><%= yield(:title) %> | JAS Bots</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application' , 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-
-<%= yield %>
-
+  
+    <%= render 'layouts/header' %>
+    
+    <div class="container">
+     <%= render 'layouts/loggedin' %>
+    
+      <%= yield %>
+    </div>
 </body>
 </html>

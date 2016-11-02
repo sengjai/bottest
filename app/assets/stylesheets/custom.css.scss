@@ -1,0 +1,120 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+/* universal */
+
+body {
+  padding-top: 70px;
+
+}
+
+#login-dp .help-block {
+  font-size: 12px;
+}
+
+#login-dp .bottom {
+  background-color: rgba(255,255,255,.8);
+  border-top:1px solid #ddd;
+  clear:both;
+  padding:14px;
+}
+
+#login-dp .social-buttons {
+  margin:12px 0;
+}
+
+#login-dp .social-buttons a{
+  width: 100%;
+}
+
+#login-dp .form-group{
+  margin-bottom:10px;
+  width: 250px;
+}
+.btn-fb {
+  color:#fff;
+  background-color: #3b5998;
+}
+.btn-fb:hover {
+  color:#fff;
+  background-color:#496ebc
+}
+
+@media(max-width:768px){
+  #login-dp{
+  
+  color:#fff;
+  }
+  #login-dp .bottom {
+  
+  border-top: 0 none;
+  } 
+}
+
+section {
+  overflow: auto;
+}
+
+.imagemain {
+	width: 70%;
+	height: 70%;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+}
+
+.center h1 {
+  margin-bottom: 10px;
+}
+
+
+/* typography */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: #777;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+/* header */
+
+
+.navbar-brand {
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  float: left;
+  font-weight: bold;
+  
+}
+
+.nav.navbar-nav ul li {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+

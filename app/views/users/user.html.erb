@@ -1,0 +1,14 @@
+
+<div>
+<br>
+<%=@next%>
+
+Hello, <%=current_user.name %>
+
+This is the profile for <%=@user.name%>
+
+
+<%if @user == current_user %>
+<%=link_to "edit your profile", edit_user_path(@user) %> <br>
+<%end%>
+</div>

@@ -1,0 +1,22 @@
+<h4> Edit your profile  </h4>
+
+  <%= form_for @user do |form| %>
+   
+   	<div class="text-field">
+  	<%= form.label :name %>
+  	<%= form.text_field :name, type: 'name' %>
+	</div>
+
+	<div class="date-field">
+  	<%= form.label :date_birth %>
+  	<%= form.date_select :date_birth, start_year: 1920 %>
+	</div>
+
+	
+  </div>
+
+    <div class="submit-field">
+    <%= form.submit %>
+    </div>
+
+<%end %>
