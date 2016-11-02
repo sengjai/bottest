@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bot_id: 1
+  user_says: MyText
+  bot_answers: MyText
+  bot_answers_2: MyText
+  keywords: MyString
+
+two:
+  bot_id: 1
+  user_says: MyText
+  bot_answers: MyText
+  bot_answers_2: MyText
+  keywords: MyString

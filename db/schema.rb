@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102055517) do
+ActiveRecord::Schema.define(version: 20161102071614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,37 @@ ActiveRecord::Schema.define(version: 20161102055517) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "bot_users", force: :cascade do |t|
+    t.integer  "bot_id"
+    t.string   "cust_fb_id"
+    t.integer  "msg_count",  default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "bots", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "token"
+    t.string   "uri"
+    t.string   "secret"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "bots", ["user_id"], name: "index_bots_on_user_id", using: :btree
+
+  create_table "question_answers", force: :cascade do |t|
+    t.integer  "bot_id"
+    t.text     "user_says"
+    t.text     "bot_answers"
+    t.text     "bot_answers_2"
+    t.string   "keywords"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "question_answers", ["bot_id"], name: "index_question_answers_on_bot_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at",                     null: false
