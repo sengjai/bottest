@@ -2,6 +2,9 @@ Rails.application.routes.draw do
 
   get 'webhook' => 'bot#webhook'
  post 'webhook' => 'bot#receive_message'
+
+ get 'webhook2' => 'webhook2#webhook'
+ post 'webhook2' => 'webhook2#receive_message'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
