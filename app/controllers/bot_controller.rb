@@ -1,49 +1,39 @@
 class BotController < ApplicationController
-	before_action :require_login, only: [:start, :create]
+	before_action :require_login, only: [ :start, :create ]
+	before_action :find_bot, only: [ :show, :send_post_message ]
 	skip_before_action :verify_authenticity_token
 
-	
 	def start
-		@webhook_uri=SecureRandom.hex(6)
-		@secret=SecureRandom.hex(4)
+		@webhook_uri = SecureRandom.hex(6)
+		@secret = SecureRandom.hex(4)
 	end
 
 	def create
-		@bot=current_user.bots.new(bot_params)
-	  	if @bot.save
-	  		redirect_to start2_path
-	  	end
+		@bot = current_user.bots.new(bot_params)
+  	if @bot.save
+  		redirect_to start2_path
   	end
-
-  	def start2
-  		bot=current_user.bots.last
-		@webhook_uri = bot.uri
-		@secret	=bot.secret
 	end
 
-  	def show
-  		bot = Bot.find_by(uri: params[:uri])
-  		saved_secret=bot.secret
-  		@token=bot.token
+  def start2
+  	bot = current_user.bots.last
+		@webhook_uri = bot.uri
+		@secret	= bot.secret
+	end
+
+  def show
+		
+		saved_secret = bot.secret
+		@token = bot.token
 
 		if params['hub.verify_token'] == saved_secret
 			render text: params['hub.challenge'] and return
 		else
 			render text: 'error' and return
 		end
-  	end
+  end
 
-
-	#-----
-	# def webhook	
-	# 	if params['hub.verify_token'] == 'mytoken33'
-	# 		render text: params['hub.challenge'] and return
-	# 	else
-	# 		render text: 'error' and return
-	# 	end
-	# end
-		
-	#Receive Message from Customer	
+  #Receive Messages from Customers
 	def receive_message
 	 if params[:entry]
 	   messaging_events = params[:entry][0][:messaging]
@@ -58,8 +48,7 @@ class BotController < ApplicationController
      		elsif event[:postback][:payload] == "EXTERMINATE"
      			send_post_message(sender, "Postback Message received, No")
      		end
-     	end
-     
+     	end 
    	 end
 	 end
 	 render nothing: true
@@ -67,9 +56,8 @@ class BotController < ApplicationController
 
 	#Replying Message from Buttons Postback
 	def send_post_message(sender, text)
-		  		bot = Bot.find_by(uri: params[:uri])
-  		
-  		@token=bot.token
+	  bot = Bot.find_by(uri: params[:uri])
+		@token = bot.token
 		body = {
 		   recipient: {
 		     id: sender
@@ -122,10 +110,15 @@ class BotController < ApplicationController
 	  )
 	end
 
-  private
 
+
+  private
 
 	def bot_params
 	   params.require(:bot).permit(:name, :token, :uri, :secret)
+	end
+
+	def find_bot
+		 @bot = Bot.find_by(uri: params[:uri])
 	end
 end
