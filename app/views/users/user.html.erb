@@ -12,3 +12,21 @@ This is the profile for <%=@user.name%>
 <%=link_to "edit your profile", edit_user_path(@user) %> <br>
 <%end%>
 </div>
+
+<div>
+
+	<%current_user.bots.all.each do |n| %>
+		<%=n.name%>
+		
+		<% if n.question_answers.count !=0 %>
+
+			<%n.question_answers.all.each do |y|%>
+				<%=y.id%>
+			<%end%>
+		<%else%>
+			create a story board for it
+				
+		<%end%>
+	<%end%>
+
+</div>

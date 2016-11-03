@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   
 
+ resources :bot, only: [:show] do
+  resources :question_answers
+end
+
   get 'user/user'
 
   get 'user/edit'
