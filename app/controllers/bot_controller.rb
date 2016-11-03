@@ -1,13 +1,47 @@
 class BotController < ApplicationController
+	before_action :require_login, only: [:start, :create]
 	skip_before_action :verify_authenticity_token
 
-	def webhook	
-		if params['hub.verify_token'] == 'mytoken'
+	
+	def start
+		@webhook_uri=SecureRandom.hex(6)
+		@secret=SecureRandom.hex(4)
+	end
+
+	def create
+		@bot=current_user.bots.new(bot_params)
+	  	if @bot.save
+	  		redirect_to start2_path
+	  	end
+  	end
+
+  	def start2
+  		bot=current_user.bots.last
+		@webhook_uri = bot.uri
+		@secret	=bot.secret
+	end
+
+  	def show
+  		bot = Bot.find_by(uri: params[:uri])
+  		saved_secret=bot.secret
+  		@token=bot.token
+
+		if params['hub.verify_token'] == saved_secret
 			render text: params['hub.challenge'] and return
 		else
 			render text: 'error' and return
 		end
-	end
+  	end
+
+
+	#-----
+	# def webhook	
+	# 	if params['hub.verify_token'] == 'mytoken33'
+	# 		render text: params['hub.challenge'] and return
+	# 	else
+	# 		render text: 'error' and return
+	# 	end
+	# end
 		
 	#Receive Message from Customer	
 	def receive_message
@@ -33,6 +67,9 @@ class BotController < ApplicationController
 
 	#Replying Message from Buttons Postback
 	def send_post_message(sender, text)
+		  		bot = Bot.find_by(uri: params[:uri])
+  		
+  		@token=bot.token
 		body = {
 		   recipient: {
 		     id: sender
@@ -44,7 +81,7 @@ class BotController < ApplicationController
 		  }.to_json
 		  
 		  response = HTTParty.post(
-		   "https://graph.facebook.com/v2.6/me/messages?access_token=EAAQMRYfrlVUBADlECWJtVGOE7qS88rCeC8xzyEXxiQ5QBAqQ1HraPkJFBa47SKOZBaFGQa0jQ1qLZAFJ34IDLwcgKk7bETyMP9S9yPyKkDASlMXQ3CgNLrZCu0Lkcrceuj4H33lSFGNgwT1ASo0rZAF4HPUFnODjLKONr1DeJAZDZD",
+		   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@token}",
 		   body: body,
 		   headers: { 'Content-Type' => 'application/json' }
 		  )
@@ -52,6 +89,9 @@ class BotController < ApplicationController
 
 	#Sending Message Via buttons or Web URL
 	def send_text_message(sender, text)
+		bot = Bot.find_by(uri: params[:uri])
+  		@token=bot.token
+		
 	  body = {
 	   recipient: {
 	     id: sender
@@ -76,10 +116,16 @@ class BotController < ApplicationController
 	  }.to_json
 	  
 	  response = HTTParty.post(
-	   "https://graph.facebook.com/v2.6/me/messages?access_token=EAAQMRYfrlVUBADlECWJtVGOE7qS88rCeC8xzyEXxiQ5QBAqQ1HraPkJFBa47SKOZBaFGQa0jQ1qLZAFJ34IDLwcgKk7bETyMP9S9yPyKkDASlMXQ3CgNLrZCu0Lkcrceuj4H33lSFGNgwT1ASo0rZAF4HPUFnODjLKONr1DeJAZDZD",
+	   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@token}",
 	   body: body,
 	   headers: { 'Content-Type' => 'application/json' }
 	  )
 	end
 
+  private
+
+
+	def bot_params
+	   params.require(:bot).permit(:name, :token, :uri, :secret)
+	end
 end

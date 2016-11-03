@@ -1,0 +1,30 @@
+<h2>Hey there, Let's start creating a bot!! </h2>
+
+<p>
+First of all, let's link your fb page to us! 
+<br>
+
+
+And give us your Token and a name for your new awesome bot!
+
+
+<%=form_for :bot, url: '/createbot' do |f| %>
+
+<span>
+<%= f.label :name %>
+<%=f.text_field :name %>
+</span>
+
+
+<span>
+<%= f.label :token %>
+<%=f.text_field :token %>
+</span>
+
+<%=f.hidden_field :uri,:value => @webhook_uri%>
+
+<%=f.hidden_field :secret, :value => @secret%>
+
+<%=f.submit "Start Creating a Bot" %>
+
+<%end %>
