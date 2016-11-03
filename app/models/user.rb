@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   
   
   validates :email, uniqueness: true
+  validates :password, length: {minimum: 6}
   has_many :authentications, :dependent => :destroy
   has_many :bots
   

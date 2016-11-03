@@ -1,0 +1,58 @@
+the below is when I send one text msg and bot replies with 1 msg: 
+  
+
+  Parameters: {"object"=>"page", 
+	  "entry"=>
+	  	[{"id"=>"190718498042855", "time"=>1478080914390, 
+	  		"messaging"=>
+	  			[{"sender"=>{"id"=>"406544522802475"}, 
+	  				"recipient"=>{"id"=>"190718498042855"}, "timestamp"=>1478080914380, 
+	  						"read"=>{"watermark"=>1478080894239, 
+	  							"seq"=>18}}]}], 
+
+  		"webhook2"=>
+  			{"object"=>"page", 
+  				"entry"=>
+  					[{"id"=>"190718498042855", "time"=>1478080914390, 
+  						"messaging"=>
+  							[{"sender"=>{"id"=>"406544522802475"}, 
+  								"recipient"=>{"id"=>"190718498042855"}, "timestamp"=>1478080914380, 
+  									"read"=>{"watermark"=>1478080894239, 
+  									"seq"=>18}}]}]}}
+
+  Rendered text template (0.0ms)
+Completed 200 OK in 1ms (Views: 0.3ms | ActiveRecord: 0.0ms)
+
+the type of callbacks I get:
+
+MSG RECEIVED:
+
+
+Started POST "/webhook2" for 127.0.0.1 at 2016-11-02 18:01:56 +0800
+Processing by Webhook2Controller#receive_message as */*
+  Parameters: {"object"=>"page", "entry"=>[{"id"=>"190718498042855", "time"=>1478080915528, "messaging"=>[{"sender"=>{"id"=>"406544522802475"}, "recipient"=>{"id"=>"190718498042855"}, "timestamp"=>1478080915507, "message"=>{"mid"=>"mid.1478080915507:21e6467115", "seq"=>19, "text"=>"hi"}}]}], 
+  "webhook2"=>{"object"=>"page", 
+  "entry"=>[{"id"=>"190718498042855", "time"=>1478080915528, "messaging"=>[{"sender"=>{"id"=>"406544522802475"}, "recipient"=>{"id"=>"190718498042855"}, "timestamp"=>1478080915507, "message"=>{"mid"=>"mid.1478080915507:21e6467115", "seq"=>19, "text"=>"hi"}}]}]}}
+  Rendered text template (0.1ms)
+Completed 200 OK in 682ms (Views: 1.1ms | ActiveRecord: 0.0ms)
+
+MSG SEND:
+
+Started POST "/webhook2" for 127.0.0.1 at 2016-11-02 18:01:57 +0800
+Processing by Webhook2Controller#receive_message as */*
+  Parameters: {"object"=>"page", "entry"=>[{"id"=>"190718498042855", "time"=>1478080917283, "messaging"=>[{"sender"=>{"id"=>"190718498042855"}, "recipient"=>{"id"=>"406544522802475"}, "timestamp"=>1478080916897, "message"=>{"is_echo"=>true, "app_id"=>325950491121694, "mid"=>"mid.1478080916897:9d5d7ebc08", "seq"=>20, "text"=>"Hi there! You said: hi. The Bots WONDER from test2"}}]}], "webhook2"=>{"object"=>"page", "entry"=>[{"id"=>"190718498042855", "time"=>1478080917283, "messaging"=>[{"sender"=>{"id"=>"190718498042855"}, "recipient"=>{"id"=>"406544522802475"}, "timestamp"=>1478080916897, "message"=>{"is_echo"=>true, "app_id"=>325950491121694, "mid"=>"mid.1478080916897:9d5d7ebc08", "seq"=>20, "text"=>"Hi there! You said: hi. The Bots WONDER from test2"}}]}]}}
+  Rendered text template (0.0ms)
+Completed 200 OK in 1308ms (Views: 0.5ms | ActiveRecord: 0.0ms)
+
+MSG DELIVERED:
+
+Started POST "/webhook2" for 127.0.0.1 at 2016-11-02 18:02:00 +0800
+Processing by Webhook2Controller#receive_message as */*
+  Parameters: {"object"=>"page", "entry"=>[{"id"=>"190718498042855", "time"=>1478080919598, "messaging"=>[{"sender"=>{"id"=>"406544522802475"}, "recipient"=>{"id"=>"190718498042855"}, "timestamp"=>0, "delivery"=>{"mids"=>["mid.1478080916897:9d5d7ebc08"], "watermark"=>1478080916897, "seq"=>21}}]}], "webhook2"=>{"object"=>"page", "entry"=>[{"id"=>"190718498042855", "time"=>1478080919598, "messaging"=>[{"sender"=>{"id"=>"406544522802475"}, "recipient"=>{"id"=>"190718498042855"}, "timestamp"=>0, "delivery"=>{"mids"=>["mid.1478080916897:9d5d7ebc08"], "watermark"=>1478080916897, "seq"=>21}}]}]}}
+
+MSG READ:
+
+  Parameters: {"object"=>"page", "entry"=>[{"id"=>"190718498042855", "time"=>1478081149329, "messaging"=>[{"sender"=>{"id"=>"406544522802475"}, "recipient"=>{"id"=>"190718498042855"}, "timestamp"=>1478081149316, "read"=>{"watermark"=>1478080916897, "seq"=>22}}]}], "webhook2"=>{"object"=>"page", "entry"=>[{"id"=>"190718498042855", "time"=>1478081149329, "messaging"=>[{"sender"=>{"id"=>"406544522802475"}, "recipient"=>{"id"=>"190718498042855"}, "timestamp"=>1478081149316, "read"=>{"watermark"=>1478080916897, "seq"=>22}}]}]}}
+
+  
+#<HTTParty::Response:0x2405bf8 parsed_response={"first_name"=>"Abdullah"}, @response=#<Net::HTTPOK 200 OK readbody=true>, @headers={"access-control-allow-origin"=>["*"], "etag"=>["\"9314938ba49f33b269d6044f7b673c35d0329d57\""], "pragma"=>["no-cache"], "cache-control"=>["private, no-cache, no-store, must-revalidate"], "facebook-api-version"=>["v2.8"], "expires"=>["Sat, 01 Jan 2000 00:00:00 GMT"], "content-type"=>["application/json; charset=UTF-8"], "x-fb-trace-id"=>["Br4f2/BrveL"], "x-fb-rev"=>["2660758"], "x-fb-debug"=>["YyCs866Ebh69iaxnaWwAIrjmgdXl0/YLtRHWti1IgsYBvznerA63FsPR2FNCDi8+DvvyyKjoUWunxOjwCjI7eA=="], "date"=>["Thu, 03 Nov 2016 01:27:09 GMT"], "connection"=>["close"], "content-length"=>["25"]}>
