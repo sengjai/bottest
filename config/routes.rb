@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  
+
   get 'user/user'
 
   get 'user/edit'
@@ -22,19 +24,30 @@ Rails.application.routes.draw do
  
   resources :users, only: [:edit,:update]
 
-get "/auth/:provider/callback" =>"sessions#create_from_omniauth"
+  get "/auth/:provider/callback" =>"sessions#create_from_omniauth"
 
   get "/sign_in" => "clearance/sessions#new", as: "sign_in"
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
   get "/sign_up" => "clearance/users#new", as: "sign_up"
   
 
-#prototype routes (to remove later)
+#prototype routes (to remove/change later)
   get 'webhook' => 'bot#webhook'
  post 'webhook' => 'bot#receive_message'
 
  get 'webhook2' => 'webhook2#webhook'
  post 'webhook2' => 'webhook2#receive_message'
+
+#starting the structure of the app
+ get'/start' => 'bot#start', as: "start"
+ get '/start2' =>'bot#start2', as: "start2"
+
+ post '/createbot' =>'bot#create'
+ get '/bots/:uri' => 'bot#show' #this is the generic self generated url for all web callbacks per each bot
+post '/bots/:uri' => 'bot#receive_message'
+
+get 'questions_answers/create_story' => "questions_answers#create_story", as: "create_story"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
