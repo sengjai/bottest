@@ -17,8 +17,11 @@ class Webhook2Controller < ApplicationController
 	   messaging_events = params[:entry][0][:messaging]
 	     messaging_events.each do |event|
 	     sender = event[:sender][:id]
+	    name= get_profile_info(sender)
+	    	   
+	  ### HOW TO CONVERT NAME TO the first name only???? NEED TO PARSE data
 	     if (text = event[:message] && event[:message][:text])
-	        send_text_message(sender, "Hi there! You said: #{text}. The Bots WONDER from test2")
+	      send_text_message(sender, "Hi #{name}! You said: #{text}. The Bots WONDER from test2")
 	     end
 	   end
 	 end
@@ -26,6 +29,18 @@ class Webhook2Controller < ApplicationController
 	 render nothing: true
 	end	
 
+	def get_profile_info(sender)
+	
+	user_id = sender
+	
+
+	response = HTTParty.get(
+	  "https://graph.facebook.com/v2.6/"+user_id+"?fields=first_name&access_token=EAAEoc0M82B4BAGYlXWKGotKLzdi6ohygsob8qk2kQiSsCtyd3PWuqyfrDum3HtLfH7nPd11bMcdvSdYhzpJKiHNALD3oBd7hjAygKYs1r0xvEM36WwzhMhHcTY4ZCsACGhZClXjiXsDvzZAyscB3XDy3WMxHmIzBDETHzeiMwZDZD" )
+	
+	body=JSON.parse(response.body)
+	name=body["first_name"]
+	
+	end
 
 	def send_text_message(sender, text)
 	  body = {
