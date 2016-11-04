@@ -49,7 +49,10 @@ class QuestionAnswersController < ApplicationController
   end
 
   def entry_params
-    params.require(:question_answer).permit(:user_says, :bot_answers, :bot_answers_2, :keywords)
+    params.require(:question_answer).permit(:user_says, :bot_answers, :bot_answers_2, :mainkeywords).tap do |permitted|
+      permitted[:user_says]=params[:question_answer][:user_says].downcase!
+      permitted[:mainkeywords]=params[:question_answer][:mainkeywords].downcase.split(',').to_a
+    end
   end
 end
 
