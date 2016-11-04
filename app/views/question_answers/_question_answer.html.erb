@@ -1,0 +1,39 @@
+	
+
+<table style="width:150%">
+<tr>
+<th> User Says:  </th>
+<th> Bot Replies:  </th>
+</tr>
+<%@blocks.each do |block| %>
+
+	<tr>
+	
+		<td>
+			<%=block.user_says%> 
+			
+		</td>
+		<td> </td>
+	</tr>
+
+	<tr>
+
+	</tr>
+	
+	
+	<tr>
+		<td> </td>
+		
+		<td>
+			<%=block.bot_answers%> 
+		
+		</td>
+		
+	</tr>
+	<tr>
+	</tr>
+	
+	<%end%>
+
+</table>
+

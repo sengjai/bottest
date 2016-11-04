@@ -56,3 +56,19 @@ MSG READ:
 
   
 #<HTTParty::Response:0x2405bf8 parsed_response={"first_name"=>"Abdullah"}, @response=#<Net::HTTPOK 200 OK readbody=true>, @headers={"access-control-allow-origin"=>["*"], "etag"=>["\"9314938ba49f33b269d6044f7b673c35d0329d57\""], "pragma"=>["no-cache"], "cache-control"=>["private, no-cache, no-store, must-revalidate"], "facebook-api-version"=>["v2.8"], "expires"=>["Sat, 01 Jan 2000 00:00:00 GMT"], "content-type"=>["application/json; charset=UTF-8"], "x-fb-trace-id"=>["Br4f2/BrveL"], "x-fb-rev"=>["2660758"], "x-fb-debug"=>["YyCs866Ebh69iaxnaWwAIrjmgdXl0/YLtRHWti1IgsYBvznerA63FsPR2FNCDi8+DvvyyKjoUWunxOjwCjI7eA=="], "date"=>["Thu, 03 Nov 2016 01:27:09 GMT"], "connection"=>["close"], "content-length"=>["25"]}>
+
+
+
+
+
+
+---------
+bot_question_answers GET    /bot/:bot_id/question_answers(.:format)          	question_answers#index
+                         POST   /bot/:bot_id/question_answers(.:format)          question_answers#create
+ new_bot_question_answer GET    /bot/:bot_id/question_answers/new(.:format)      question_answers#new
+edit_bot_question_answer GET    /bot/:bot_id/question_answers/:id/edit(.:format) question_answers#edit
+     bot_question_answer GET    /bot/:bot_id/question_answers/:id(.:format)      question_answers#show
+                         PATCH  /bot/:bot_id/question_answers/:id(.:format)      question_answers#update
+                         PUT    /bot/:bot_id/question_answers/:id(.:format)      question_answers#update
+                         DELETE /bot/:bot_id/question_answers/:id(.:format)      question_answers#destroy
+                     bot GET    /bot/:id(.:format)                               bot#show

@@ -5,6 +5,8 @@ Rails.application.routes.draw do
  resources :bot, only: [:show] do
   resources :question_answers
 end
+get '/bot/:bot_id/question_answers/new' => 'question_answers#new'
+post '/bot/:bot_id/question_answers/new' => 'question_answers#create'
 
   get 'user/user'
 
@@ -49,8 +51,6 @@ end
  post '/createbot' =>'bot#create'
  get '/bots/:uri' => 'bot#show' #this is the generic self generated url for all web callbacks per each bot
 post '/bots/:uri' => 'bot#receive_message'
-
-get 'questions_answers/create_story' => "questions_answers#create_story", as: "create_story"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

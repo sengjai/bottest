@@ -9,23 +9,27 @@ This is the profile for <%=@user.name%>
 
 
 <%if @user == current_user %>
-<%=link_to "edit your profile", edit_user_path(@user) %> <br>
+	<%=link_to "edit your profile", edit_user_path(@user) %> <br>
 <%end%>
+
 </div>
 
 <div>
 
-	<%current_user.bots.all.each do |n| %>
-		<%=n.name%>
+	<%current_user.bots.all.each do |bot| %>
+		<p>
+		<h3><br><%=bot.name%> <br></h3>
 		
-		<% if n.question_answers.count !=0 %>
+		<% if bot.question_answers.count !=0 %>
 
-			<%n.question_answers.all.each do |y|%>
-				<%=y.id%>
-			<%end%>
+			<h4>	<%=link_to "view your story", bot_question_answers_path(bot)%> <br></h4>
+
 		<%else%>
-			create a story board for it
-				
+		<br>
+			<h4>create a story board for it</h4>
+		<p>	
+
+		<%=link_to "Create a bot", bot_question_answers_path(bot)%>	
 		<%end%>
 	<%end%>
 
