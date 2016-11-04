@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102101825) do
+ActiveRecord::Schema.define(version: 20161104080122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,8 +52,9 @@ ActiveRecord::Schema.define(version: 20161102101825) do
     t.text     "bot_answers"
     t.text     "bot_answers_2"
     t.string   "keywords"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "mainkeywords",  default: [],              array: true
   end
 
   add_index "question_answers", ["bot_id"], name: "index_question_answers_on_bot_id", using: :btree
