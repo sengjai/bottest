@@ -17,9 +17,9 @@ class BotController < ApplicationController
 	end
 
   def start2
-  	bot = current_user.bots.last
-		@webhook_uri = bot.uri
-		@secret	= bot.secret
+  	@bot = current_user.bots.last
+		@webhook_uri = @bot.uri
+		@secret	= @bot.secret
 	end
 
   def show
@@ -32,6 +32,7 @@ class BotController < ApplicationController
   end
 
   #Receive Messages from Customers
+
 	def receive_message
 	 if params[:entry]
 	   messaging_events = params[:entry][0][:messaging]
