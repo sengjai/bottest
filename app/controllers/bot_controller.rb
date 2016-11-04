@@ -35,14 +35,7 @@ class BotController < ApplicationController
   	end
 
 
-	#-----
-	# def webhook	
-	# 	if params['hub.verify_token'] == 'mytoken33'
-	# 		render text: params['hub.challenge'] and return
-	# 	else
-	# 		render text: 'error' and return
-	# 	end
-	# end
+
 		
 	#Receive Message from Customer	
 	def receive_message
