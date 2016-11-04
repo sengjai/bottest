@@ -20,21 +20,6 @@ class BotController < ApplicationController
   	bot = current_user.bots.last
 		@webhook_uri = bot.uri
 		@secret	= bot.secret
-
-		# Greeting Text
-		# @bot = Bot.find_by(uri: params[:uri])
-		# body = {
-	 #   setting_type: 'greeting',
-	 #   greeting:{
-	 #   	text: "Welcome to aparrels bro"
-	 #   }
-	 #  }.to_json
-	  
-	 #  response = HTTParty.post(
-	 #   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@bot.token}",
-	 #   body: body,
-	 #   headers: { 'Content-Type' => 'application/json' }
-	 #  )
 	end
 
   def show
