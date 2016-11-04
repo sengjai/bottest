@@ -1,6 +1,7 @@
 class BotController < ApplicationController
+	#before_action :find_bot, only: [ :show, :send_post_message, :send_text_message ]
 	before_action :require_login, only: [ :start, :create ]
-	before_action :find_bot, only: [ :show, :send_post_message ]
+	
 	skip_before_action :verify_authenticity_token
 
 	def start
@@ -19,14 +20,25 @@ class BotController < ApplicationController
   	bot = current_user.bots.last
 		@webhook_uri = bot.uri
 		@secret	= bot.secret
+
+		# Greeting Text
+		# @bot = Bot.find_by(uri: params[:uri])
+		# body = {
+	 #   setting_type: 'greeting',
+	 #   greeting:{
+	 #   	text: "Welcome to aparrels bro"
+	 #   }
+	 #  }.to_json
+	  
+	 #  response = HTTParty.post(
+	 #   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@bot.token}",
+	 #   body: body,
+	 #   headers: { 'Content-Type' => 'application/json' }
+	 #  )
 	end
 
   def show
-		
-		saved_secret = bot.secret
-		@token = bot.token
-
-		if params['hub.verify_token'] == saved_secret
+		if params['hub.verify_token'] == @bot.secret
 			render text: params['hub.challenge'] and return
 		else
 			render text: 'error' and return
@@ -40,7 +52,9 @@ class BotController < ApplicationController
      messaging_events.each do |event|
      sender = event[:sender][:id]
      	if event[:message] != nil
-     		send_text_message(sender, "Normal received message")
+     		
+     		#send_image_message(sender, "http://thetechyhub.com/wp-content/themes/thetechyhub/images/our_work.jpg")
+     		find_reply(sender, event[:message][:text])
      	elsif event[:postback] != nil
      		#Do a case statement here
      		if event[:postback][:payload] == "test"
@@ -54,32 +68,69 @@ class BotController < ApplicationController
 	 render nothing: true
 	end
 
-	#Replying Message from Buttons Postback
-	def send_post_message(sender, text)
-	  bot = Bot.find_by(uri: params[:uri])
-		@token = bot.token
-		body = {
-		   recipient: {
-		     id: sender
-		   },
-
-		   message: {
-		     text: text
-		   }
-		  }.to_json
-		  
-		  response = HTTParty.post(
-		   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@token}",
-		   body: body,
-		   headers: { 'Content-Type' => 'application/json' }
-		  )
-		end	
-
-	#Sending Message Via buttons or Web URL
 	def send_text_message(sender, text)
-		bot = Bot.find_by(uri: params[:uri])
-  		@token=bot.token
+		@bot = Bot.find_by(uri: params[:uri])
+		body = {
+	   recipient: {
+	     id: sender
+	   },
+	   message: {
+	     text: text 
+	   },
+	  }.to_json
+	  
+	  response = HTTParty.post(
+	   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@bot.token}",
+	   body: body,
+	   headers: { 'Content-Type' => 'application/json' }
+	  )
+	end
+
+	def find_reply(sender, text)
+		#Search text here
+
+
+		#First Search Criteria
+		#answer = QuestionAnswer.find_by(user_says: text)
+		answer = QuestionAnswer.where('keywords SIMILAR TO ?' , "%#{text}%")
+		#answer = QuestionAnswer.keywords_contain(text)
 		
+		if answer.count != 0 
+			send_text_message(sender, answer[0].bot_answers)
+		else
+			send_text_message(sender, "Sorry I am still learning, I don't get what #{text} means?")
+		end
+	end
+
+
+	#Sending Image Message 
+	def send_image_message(sender, url)
+		@bot = Bot.find_by(uri: params[:uri])
+		body = {
+	   recipient: {
+	     id: sender
+	   },
+
+	   message: {
+	     attachment: {
+		      type: 'image',
+		      payload: {
+		        url: url
+		      }
+		    }
+	   }
+	  }.to_json
+	  
+	  response = HTTParty.post(
+	   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@bot.token}",
+	   body: body,
+	   headers: { 'Content-Type' => 'application/json' }
+	  )
+	end
+
+	#Sending Message Via Template
+	def send_template_text(sender, text)
+		@bot = Bot.find_by(uri: params[:uri])
 	  body = {
 	   recipient: {
 	     id: sender
@@ -104,21 +155,35 @@ class BotController < ApplicationController
 	  }.to_json
 	  
 	  response = HTTParty.post(
-	   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@token}",
+	   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@bot.token}",
 	   body: body,
 	   headers: { 'Content-Type' => 'application/json' }
 	  )
 	end
 
+	#Replying Message from Buttons Postback
+	def send_post_message(sender, text)
+		@bot = Bot.find_by(uri: params[:uri])
+		body = {
+		   recipient: {
+		     id: sender
+		   },
 
+		   message: {
+		     text: text
+		   }
+		  }.to_json
+		  
+	  response = HTTParty.post(
+	   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@bot.token}",
+	   body: body,
+	   headers: { 'Content-Type' => 'application/json' }
+	  )
+	end	
 
   private
 
 	def bot_params
 	   params.require(:bot).permit(:name, :token, :uri, :secret)
-	end
-
-	def find_bot
-		 @bot = Bot.find_by(uri: params[:uri])
-	end
+	end	
 end
