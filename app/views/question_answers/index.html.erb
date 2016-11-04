@@ -1,0 +1,30 @@
+<h2>Create what the user says and what your bot replies</h2>
+
+
+
+
+
+<div id="story-form" style="display:none;"></div>
+
+<div class="row">
+  <div class="col-md-7 col-md-offset-1" id="blocks"><%= render 'question_answer' %></div>
+</div>
+
+<div class="row">
+	<div class ="col-md-5 col-md-offset-1">
+	<h2>Bot Story </h2>
+	</div>
+
+	<div class="col-md-2 col-md-offset-4">
+    <%=link_to new_bot_question_answer_path(@bot), remote:true do%>
+      <button class="btn btn-default">New</button>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-2" id="block-form" style="display:none;"></div>
+</div>
+
+
+

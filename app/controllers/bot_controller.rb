@@ -16,12 +16,13 @@ class BotController < ApplicationController
   	end
 
   	def start2
-  		bot=current_user.bots.last
-		@webhook_uri = bot.uri
-		@secret	=bot.secret
+  		@bot=current_user.bots.last
+		@webhook_uri = @bot.uri
+		@secret	=@bot.secret
 	end
 
   	def show
+  		
   		bot = Bot.find_by(uri: params[:uri])
   		saved_secret=bot.secret
   		@token=bot.token

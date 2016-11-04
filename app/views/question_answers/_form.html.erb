@@ -1,0 +1,7 @@
+<%=simple_form_for :question_answer, remote:true do |f| %>
+<%= f.input :user_says %>
+<%=f.input :bot_answers %>
+<%=f.input :bot_answers_2%>
+<%=f.input :keywords%>
+<%=f.button :submit%>
+<%end%>
