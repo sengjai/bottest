@@ -8,6 +8,8 @@ end
 get '/bot/:bot_id/question_answers/new' => 'question_answers#new'
 post '/bot/:bot_id/question_answers/new' => 'question_answers#create'
 
+post '/bot/:bot_id/question_answers/:id/edit' => 'question_answers#update'
+
   get 'user/user'
 
   get 'user/edit'

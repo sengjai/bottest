@@ -1,7 +1,7 @@
 class QuestionAnswersController < ApplicationController
-  before_action :which_bot
-  before_action :all_question_answers, only: [:index, :create]
-  
+  before_action :which_bot, only: [:index, :create, :new, :update, :destroy]
+  before_action :all_question_answers, only: [:index, :create, :update, :destroy]
+  before_action :set_question_answer, only: [:edit, :update, :destroy]
   respond_to :html, :js
   
   def new
@@ -14,8 +14,7 @@ class QuestionAnswersController < ApplicationController
     @block_created=@bot.question_answers.last
   end
 
-  def show
-  end
+  
 
   def index
    
@@ -24,7 +23,12 @@ class QuestionAnswersController < ApplicationController
   def edit
   end
 
-  def delete
+  def update
+    @question_answer.update_attributes(entry_params)
+  end
+
+  def destroy
+    @question_answer.destroy
   end
 
 
@@ -32,11 +36,14 @@ class QuestionAnswersController < ApplicationController
   def which_bot
     @bot=Bot.find(params[:bot_id])
     return @bot
+  end
 
+  def set_question_answer
+    @question_answer=QuestionAnswer.find(params[:id])
   end
 
   def all_question_answers
-    #### DEFINE what is @bot
+ 
     
     @blocks=@bot.question_answers.all
   end
