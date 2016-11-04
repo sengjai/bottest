@@ -1,0 +1,43 @@
+	
+
+<table style="width:150%">
+<tr>
+<th> User Says:  </th>
+<th> Bot Replies:  </th>
+<th> edit </th>
+</tr>
+<%@blocks.each do |block| %>
+
+	<tr>
+	
+		<td>
+			<%=block.user_says%> 
+			
+		</td>
+		<td> </td>
+		<td> <%=link_to edit_bot_question_answer_path(block.bot_id, block.id), remote: true do%>
+		<button> Edit </button><%end%> </td>
+	</tr>
+
+	<tr>
+
+	</tr>
+	
+	
+	<tr>
+		<td> </td>
+		
+		<td>
+			<%=block.bot_answers%> 
+		
+		</td>
+		<td> <%=link_to bot_question_answer_path(block.bot_id, block.id), remote: true, method: :delete do%>
+		<button> Delete! </button><%end%></td>
+	</tr>
+	<tr>
+	</tr>
+	
+	<%end%>
+
+</table>
+

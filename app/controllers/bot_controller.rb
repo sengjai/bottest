@@ -38,6 +38,7 @@ class BotController < ApplicationController
 	end
 
   def show
+  	@bot = Bot.find_by(uri: params[:uri])
 		if params['hub.verify_token'] == @bot.secret
 			render text: params['hub.challenge'] and return
 		else
