@@ -1,7 +1,5 @@
 class BotController < ApplicationController
-	#before_action :find_bot, only: [ :show, :send_post_message, :send_text_message ]
 	before_action :require_login, only: [ :start, :create ]
-	
 	skip_before_action :verify_authenticity_token
 
 	def start
@@ -20,21 +18,6 @@ class BotController < ApplicationController
   	@bot = current_user.bots.last
 		@webhook_uri = @bot.uri
 		@secret	= @bot.secret
-
-		# Greeting Text
-		# @bot = Bot.find_by(uri: params[:uri])
-		# body = {
-	 #   setting_type: 'greeting',
-	 #   greeting:{
-	 #   	text: "Welcome to aparrels bro"
-	 #   }
-	 #  }.to_json
-	  
-	 #  response = HTTParty.post(
-	 #   "https://graph.facebook.com/v2.6/me/messages?access_token=#{@bot.token}",
-	 #   body: body,
-	 #   headers: { 'Content-Type' => 'application/json' }
-	 #  )
 	end
 
   def show
@@ -47,15 +30,12 @@ class BotController < ApplicationController
   end
 
   #Receive Messages from Customers
-
 	def receive_message
 	 if params[:entry]
 	   messaging_events = params[:entry][0][:messaging]
      messaging_events.each do |event|
      sender = event[:sender][:id]
      	if event[:message] != nil
-     		
-     		#send_image_message(sender, "http://thetechyhub.com/wp-content/themes/thetechyhub/images/our_work.jpg")
      		find_reply(sender, event[:message][:text])
      	elsif event[:postback] != nil
      		#Do a case statement here
@@ -89,24 +69,26 @@ class BotController < ApplicationController
 	end
 
 	def find_reply(sender, text)
-		#Search text here
+		#Returning the most similar question to the user
+		answer = QuestionAnswer.where('user_says SIMILAR TO ?' , "%#{text.downcase}%")
 
-
-		#First Search Criteria
-		#answer = QuestionAnswer.find_by(user_says: text)
-		answer = QuestionAnswer.where('keywords SIMILAR TO ?' , "%#{text}%")
-		#answer = QuestionAnswer.keywords_contain(text)
-		
 		if answer.count != 0 
 			send_text_message(sender, answer[0].bot_answers)
 		else
-			send_text_message(sender, "Sorry I am still learning, I don't get what #{text} means?")
+			#Search from keywords
+			answer = QuestionAnswer.where('keywords SIMILAR TO ?' , "%#{text.downcase}%")
+			if answer.count != 0 
+				send_text_message(sender, answer[0].bot_answers)
+			else
+			#If all really fails, then return sorry text
+				send_text_message(sender, "Sorry I am still learning, I don't get what #{text} means?")
+			end
 		end
 	end
 
 
 	#Sending Image Message 
-	def send_image_message(sender, url)
+	def send_image_message(sender, image_url)
 		@bot = Bot.find_by(uri: params[:uri])
 		body = {
 	   recipient: {
@@ -117,7 +99,7 @@ class BotController < ApplicationController
 	     attachment: {
 		      type: 'image',
 		      payload: {
-		        url: url
+		        url: image_url
 		      }
 		    }
 	   }
