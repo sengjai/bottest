@@ -1,0 +1,13 @@
+<h1>Facebook#index</h1>
+<p>Am gonna show all the facebook pages here!</p>
+
+<% @pages.each_with_index do |value, index| %>
+Name : <%= value["name"] %><br/>
+Page id : <%= value["id"] %><br>
+Access Token :<%= value["access_token"] %><br/>
+Permissions :<%= value["perms"] %>
+
+<% link_to "Send Message"  %>
+
+<hr>
+<% end %>

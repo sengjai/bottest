@@ -26,6 +26,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'figaro'
 gem 'omniauth-facebook'
+gem "koala", "~> 2.2"
 
 gem 'clearance'
 # Use ActiveModel has_secure_password

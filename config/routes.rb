@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   
 
+ resources :facebook
+
+ post '/facebook/:uri' => 'facebook#send_message'
+
  resources :bot, only: [:show] do
   resources :question_answers
 end
@@ -40,7 +44,7 @@ post '/bot/:bot_id/question_answers/:id/edit' => 'question_answers#update'
   
 
 #prototype routes (to remove/change later)
-  get 'webhook' => 'bot#webhook'
+ get 'webhook' => 'bot#webhook'
  post 'webhook' => 'bot#receive_message'
 
  get 'webhook2' => 'webhook2#webhook'
@@ -52,7 +56,7 @@ post '/bot/:bot_id/question_answers/:id/edit' => 'question_answers#update'
 
  post '/createbot' =>'bot#create'
  get '/bots/:uri' => 'bot#show' #this is the generic self generated url for all web callbacks per each bot
-post '/bots/:uri' => 'bot#receive_message'
+  post '/bots/:uri' => 'bot#receive_message'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
